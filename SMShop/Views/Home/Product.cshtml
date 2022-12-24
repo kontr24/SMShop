@@ -1,0 +1,178 @@
+﻿@using SMShop.Models
+
+@model Product
+@{
+    ViewBag.Title = Model.Name + " купить с доставкой в городе Димитровград";
+
+}
+
+@*@{string imagePath = "/Content/Images/" + Model.Photo; }*@
+
+<nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="p-2">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Каталог", "Index", "Home", new { @class = "text-decoration-none text-black" })</li>
+        <li class="breadcrumb-item"><a class="text-decoration-none text-black" href="#"</a></li>
+        <!--<li class="breadcrumb-item active" aria-current="page">-->@*@Model.Name*@ <!--@Model.Category.Category1</li>-->
+        <li class="breadcrumb-item active" aria-current="page">
+            <a href="/Home/Index/?category=@Model.Category.Category1" class="text-decoration-none text-black">@Model.Category.Category1</a>
+
+        </li>
+    </ol>
+</nav>
+
+@*<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title">@Model.Name</h5>
+    </div>
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="@imagePath" class="img-fluid rounded-start" alt="Не удалось загрузить картинку">
+        </div>
+        <div class="col-md-8 mt-lg-3">
+            <div class="card-body">
+                <h1 class="card-text">ЦЕНА: <b class="text-wrap bg-warning">@Model.Price ₽</b> </h1>
+                <p class="card-text"><small class="text-muted">Артикул: @Model.Id</small></p>
+                <div class="card-text mt-3">
+                    @Model.Description
+                </div>
+                <p>@Html.ActionLink("В корзину", "#", "#", new { @class = "btn btn-lg btn-primary mt-5 rounded-0" })</p>
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="grid-item">
+
+    <div>
+
+        <div class="item">
+
+            <img src="~/Content/Images/@Model.Photo" width="300px" height="300px" />
+
+
+            @*<li class="breadcrumb-item active" aria-current="page">*@
+                <div>
+                    <span>Категория: </span>
+
+                    <a href="/Home/Index/?category=@Model.Category.Category1" class="text-decoration-none text-black">@Model.Category.Category1</a>
+
+
+                </div>
+            @*</li>*@
+
+
+
+
+            <div><span>Название: </span>@Model.Name</div>
+
+
+
+
+            @if (Model.CountDiscs != null || Model.RusLanguage != null || Model.AddContent != null)
+            {
+                <div><span>Количество дисков: </span>@Model.CountDiscs</div>
+                <div><span>Наличие русского языка: </span>@Model.RusLanguage</div>
+                <div><span>Дополнительный контент: </span>@Model.AddContent</div>
+            }
+            @if (Model.Count != null || Model.ExistGame != null || Model.Weight != null)
+            {
+                <div><span>Количество предметов: </span>@Model.Count</div>
+                <div><span>Наличие игры: </span>@Model.ExistGame</div>
+                <div><span>Вес: </span>@Model.Weight</div>
+            }
+            @if (Model.Material != null || Model.Source != null || Model.Origin != null)
+            {
+                <div><span>Материал: </span>@Model.Material</div>
+                <div><span>Источник: </span>@Model.Source</div>
+                <div><span>Производитель: </span>@Model.Origin</div>
+
+            }
+
+            <div><span>Цена: </span> @Model.Price руб.</div>
+
+
+            <div class="button">
+                @Html.ActionLink("Купить", "Checkout", "Cart", new { Id = Model.Id }, new { @class = "button" })
+            </div>
+
+        </div>
+
+        <div class="description">
+
+            <div>
+                <span>
+                    Описание:
+                </span>@Model.Description
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<style>
+
+    .button {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #0fc818;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 25px;
+        text-decoration: none;
+    }
+
+    .item div > span {
+        font-weight: bold;
+    }
+
+
+
+    .item {
+        border: 0px solid red;
+        width: 600px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        text-align: center;
+        font-family: sans-serif;
+        margin: 5px 0 0 350px;
+    }
+
+        .item:hover {
+            border-color: green;
+        }
+
+    .description span {
+        font-weight: bold;
+        font-size: 18pt;
+    }
+
+    .description div {
+        font-size: 15pt;
+    }
+
+
+    .description {
+        border: 2px solid blue;
+        width: 600px;
+        border-radius: 5px;
+        display: flex;
+        flex-wrap: wrap-reverse;
+        margin: 5px 0 0 350px;
+    }
+
+    .grid-item {
+        display: flex;
+        flex-wrap: wrap-reverse;
+    }
+
+    .price {
+        color: #d32f2f;
+        font-size: 18px;
+    }
+</style>
+

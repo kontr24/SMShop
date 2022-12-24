@@ -1,0 +1,513 @@
+﻿@model SMShop.Models.About
+@{
+    ViewBag.Title = "Форма заказа";
+}
+
+@using (Html.BeginForm(new { Id = Model.Products.Id }))
+{
+    <div class="categoies">
+
+        <div><span>Товары для заказа</span></div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-right">Категория</th>
+                <th class="text-right">Название</th>
+                <th class="text-right">Количество</th>
+                <th class="text-right">Цена</th>
+                <th class="text-right">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.cartIndexViewModel.Cart.Lines)
+            {
+                if (Model.Products.Id == 0)
+                {
+                    <tr>
+                        <td class="text-right">@line.Product.Category.Category1</td>
+                        <td class="text-right">@line.Product.Name</td>
+                        <td class="text-right">@line.Quantity</td>
+                        <td class="text-right">@line.Product.Price руб.</td>
+                        <td class="text-right">@(line.Product.Price * line.Quantity) руб.</td>
+
+                    </tr>
+
+                    @Html.TextBoxFor(x => x.shoppingDetails.Sum, new
+               {
+                   //@Value = Model.Products.Price,
+                   //value = "<?=@$_POST['prname']?>",
+                   @class = "text-right-input",
+                   //type = "number",
+                   id = "num2",
+                   //disabled = "disabled",
+                   @readonly = "readonly",
+                   hidden = "hidden"
+                   //min = "1",
+               })
+                    @Html.TextBoxFor(x => x.shoppingDetails.Quantity, new
+               {
+                   //@Value = Model.Products.Price,
+                   //value = "<?=@$_POST['prname']?>",
+                   @class = "text-right-input",
+                   //type = "number",
+                   id = "num2",
+                   //disabled = "disabled",
+                   @readonly = "readonly",
+                   hidden = "hidden"
+                   //min = "1",
+               })
+                }
+            }
+            @if (Model.Products.Id != 0)
+            {
+                <tr>
+                    <td class="text-right">@Model.Products.Category.Category1</td>
+                    <td class="text-right">@Model.Products.Name</td>
+                    <td class="text-right">
+                        @Html.TextBoxFor(x => x.shoppingDetails.Quantity, new
+                   {
+                       //@Value = Model.Products.Price,
+                       //value = "<?=@$_POST['prname']?>",
+                       @class = "text-right-input",
+                       type = "number",
+                       id = "num1",
+                       //disabled = "disabled",
+                       //@readonly = "readonly",
+                       min = "1",
+                   })
+
+                    <td class="text-right"> <input type="text" min="1" value=@Model.Products.Price class="text-right-input" id="num" disabled="disabled" /> руб.</td>
+
+                    <td class="text-right">
+                        @Html.TextBoxFor(x => x.shoppingDetails.Sum, new
+                   {
+                       //@Value = Model.Products.Price,
+                       //value = "<?=@$_POST['prname']?>",
+                       @class = "text-right-input",
+                       //type = "number",
+                       id = "num2",
+                       //disabled = "disabled",
+                       @readonly = "readonly",
+                       //min = "1",
+                   }) руб.
+                </tr>
+
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-left">Итого:</td>
+                @if (Model.Products.Id == 0)
+                {
+                    <td class="text-left">@Model.cartIndexViewModel.Cart.ComputeTotalValue().ToString("# руб.")</td>
+                }
+                else
+                {
+                    <td class="text-right">
+                        @Html.TextBoxFor(x => x.shoppingDetails.Sum, new
+                   {
+                       //@Value = Model.Products.Price,
+                       //value = "<?=@$_POST['prname']?>",
+                       @class = "text-right-input",
+                       //type = "number",
+                       id = "num3",
+                       //disabled = "disabled",
+                       @readonly = "readonly",
+                       //min = "1",
+                   }) руб.
+                    </td>
+                }
+            </tr>
+        </tfoot>
+
+    </table>
+
+    <script>
+        //умножение
+        const id = (str) => document.getElementById(str);
+
+        [id("num1"), id("num")].forEach(elem => {
+            elem.addEventListener("input", function () {
+                id("num2").value = id("num1").value * id("num").value;
+            });
+        });
+
+        [id("num1"), id("num")].forEach(elem => {
+            elem.addEventListener("input", function () {
+                id("num3").value = id("num1").value * id("num").value;
+            });
+        });
+    </script>
+
+    <div class="purchase7">
+        <h2>Оформление заказа</h2>
+        <p>Пожалуйста, введите ваши контактные данные.</p>
+    </div>
+
+    @*<div>      @Html.ValidationMessageFor(x => x.shoppingDetails.Surname, "Заполните информацию о себе!", new { @class = "purchase" })</div>*@
+
+
+
+
+
+    if (Session["UserId"] != null)
+    {
+        <div class="purchase">
+            @*@Html.ValidationSummary()*@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h3>Данные</h3>
+            <label>Ваша фамилия: </label>
+            <label class="purchase1">
+                Ваше имя:
+            </label>
+            <label class="purchase3">
+                Ваше отчество:
+            </label>
+        </div>
+
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Surname, new { @Value = Session["LastName"].ToString(), @class = "purchase", @placeholder = "Укажите фамилию" })
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Name, new { @Value = Session["FirstName"].ToString(), @class = "purchase2", @placeholder = "Укажите имя" })
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Patronomic, new { @class = "purchase2", @placeholder = "Укажите отчество" })
+
+    }
+    if (Session["UserId"] == null)
+    {
+        <div class="purchase">
+            @*@Html.ValidationSummary()*@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h3>Данные</h3>
+            <label>Ваша фамилия: </label>
+
+            <label class="purchase1">
+                Ваше имя:
+            </label>
+            <label class="purchase3">
+                Ваше отчество:
+            </label>
+
+
+        </div>
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Surname, new { @class = "purchase", @placeholder = "Укажите фамилию" })
+        @*<div>      @Html.ValidationMessageFor(x => x.shoppingDetails.Surname, "", new { @class = "purchase" })</div>*@
+
+
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Name, new { @class = "purchase2", @placeholder = "Укажите имя" })
+
+        @Html.TextBoxFor(x => x.shoppingDetails.Patronomic, new { @class = "purchase2", @placeholder = "Укажите отчество" })
+    }
+
+
+
+
+    <div class="purchase">
+        <h3>Адрес доставки</h3>
+
+        <label>Страна:</label>
+
+        <label class="purchase4">
+            Город:
+        </label>
+        <label class="purchase5">
+            Улица:
+        </label>
+    </div>
+
+    @Html.TextBoxFor(x => x.shoppingDetails.Country, new { @class = "purchase", @placeholder = "Укажите страну" })
+    @Html.TextBoxFor(x => x.shoppingDetails.City, new { @class = "purchase2", @placeholder = "Укажите город" })
+    @Html.TextBoxFor(x => x.shoppingDetails.Line1, new { @class = "purchase2", @placeholder = "Укажите улицу" })
+
+    <div class="purchase">
+        <label>Дом: </label>
+
+        <label class="purchase6">
+            Квартира:
+        </label>
+    </div>
+    @Html.TextBoxFor(x => x.shoppingDetails.Line2, new { @class = "purchase", @placeholder = "Укажите дом" })
+    @Html.TextBoxFor(x => x.shoppingDetails.Line3, new { @class = "purchase2", @placeholder = "Укажите квартиру" })
+
+
+    <input class="Order" type="submit" value="Обработать заказ" />
+
+
+
+
+}
+
+<style>
+
+    .categoies {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        width: 300px;
+        /*  border-radius: 5px;*/
+        margin: 50px 30px 30px 550px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+        color: #333333;
+        background: #FFFFFF;
+    }
+
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    .input-validation-error {
+        border: 1px solid #f00;
+        background-color: #fee;
+    }
+
+    .validation-summary-errors {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .purchase {
+        margin: 10px 0px 0px 350px;
+    }
+
+
+    .purchase1 {
+        margin: 0px 0px 0px 115px;
+    }
+
+    .purchase2 {
+        margin: 0px 0px 0px 30px;
+    }
+
+    .purchase3 {
+        margin: 0px 0px 0px 155px;
+    }
+
+    .purchase4 {
+        margin: 0px 0px 0px 180px;
+    }
+
+    .purchase5 {
+        margin: 0px 0px 0px 192px;
+    }
+
+    .purchase6 {
+        margin: 0px 0px 0px 205px;
+    }
+
+    .purchase7 {
+        margin: 30px 0px 0px 500px;
+    }
+
+    /*.Order {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #f44336;
+        text-align: center;
+        cursor: pointer;*/
+    /*width: 100%;*/
+    /*font-size: 18px;
+        text-decoration: none;
+        margin: 0px 0px 0px 875px;
+    }*/
+
+
+    .Order {
+        margin: 20px 0px 30px 585px;
+        font-size: 18px;
+        position: relative;
+        display: inline-block;
+        font-weight: bold;
+        color: #000;
+        text-decoration: none;
+        text-shadow: -2px 2px rgba(255,255,255,.3);
+        line-height: 1.1;
+        padding: .5em 3em .5em .6em;
+        background: linear-gradient(#ecc92b, #fce25b);
+        box-shadow: 0 0 0 1px #fce25b inset, -1px 0px rgb(220,195,35), -1px 1px rgb(192,167,7), -2px 1px rgb(219,194,34), -2px 2px rgb(191,166,6), -3px 2px rgb(218,193,33), -3px 3px rgb(190,165,5), -4px 3px rgb(217,192,32), -4px 4px rgb(189,164,4), -5px 4px rgb(216,191,31), -5px 5px rgb(188,163,3), -6px 5px rgb(215,190,30), -6px 6px rgb(187,162,2), -7px 6px rgb(214,189,29), -7px 7px rgb(186,161,1), -8px 7px rgb(213,188,28), -8px 8px rgb(185,160,0), -7px 9px 1px rgba(0,0,0,.4), -5px 11px 1px rgba(0,0,0,.2), -1px 13px 4px rgba(0,0,0,.2), 4px 16px 7px rgba(0,0,0,.3);
+        transition: .4s;
+    }
+
+        .Order:active {
+            box-shadow: none;
+            -webkit-transform: translate(-7px, 8px);
+            transform: translate(-7px, 8px);
+        }
+
+        .Order:after {
+            content: "";
+            position: absolute;
+            top: calc(50% - .6em/2);
+            right: .6em;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            border: .37em solid;
+            border-top: none;
+            border-left: none;
+            width: .6em;
+            height: .6em;
+            box-shadow: inset -2px 2px rgba(255,255,255,.3);
+        }
+
+
+
+
+
+    h1 {
+        margin: 10px 0 10px 650px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #000000;
+        font-weight: 700;
+        text-decoration: underline solid rgb(68, 68, 68);
+        font-style: italic;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: #232323;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
+        color: #FFFFFF;
+        background: #232323;
+    }
+
+
+
+
+    #content {
+        width: 1000px;
+        margin: 50px auto 0px;
+    }
+
+    #nav {
+        font-family: 'Open Sans', arial;
+    }
+
+        #nav li {
+            float: left; /* все ссылки идут слева на право */
+            position: relative;
+            list-style: none; /* убираем точки */
+            background: #ff3131;
+            width: 190px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            display: block; /* делаем блочным элементов тег "a" */
+            padding: 10px 65px;
+            color: #ffffff;
+        }
+
+        #active a, #nav li:hover > a {
+            background: #b32424;
+        }
+
+        #nav ul {
+            visibility: hidden; /* скрываем выпадающее меню */
+            padding: 0;
+            position: absolute;
+        }
+
+        #nav li:hover > ul {
+            visibility: visible; /* показываем выпадающее меню при наведении */
+            position: relative;
+        }
+
+        #nav ul a {
+            padding: 18.5px 65px; /* делаем отступы выпадающего меню меньше от основного */
+        }
+
+        #nav ul li:hover {
+            background: #d92a2a;
+        }
+
+        #nav li:first-child:hover > ul {
+            left: 0px; /* при наведении на первый элемент чтобы не съежало выпадающее меню */
+        }
+
+        #nav > li {
+            border-right: 2px solid #d92a2a; /* добавляем рамку к основному меню справа */
+        }
+
+            #nav > li:last-child {
+                border-right: none; /* убираем рамку справа основного меню */
+            }
+
+            #nav > li ul li {
+                border-left: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню слева */
+                border-right: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню справа */
+            }
+
+        #nav li:first-child ul li, #nav li:first-child ul {
+            border-left: none; /* убираем рамку у выпадающего меню слева */
+        }
+
+        #nav li:last-child ul li, #nav li:last-child ul {
+            border-right: none; /* убираем рамку у выпадающего меню справа */
+        }
+
+        #nav li:hover > ul {
+            left: -2px; /* смещаем выпадающее меню слева от размера рамки*/
+        }
+
+
+
+    .table {
+        width: auto;
+        margin-bottom: 20px;
+        border: 1px solid #dddddd;
+        border-collapse: collapse;
+        margin: 0px 0px 0px 250px
+    }
+
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-left {
+        text-align: right;
+    }
+
+    .text-right {
+        text-align: center;
+    }
+
+    .text-right-input {
+        text-align: right;
+        border: none;
+        outline: none;
+        width: 70px;
+    }
+</style>
+
+

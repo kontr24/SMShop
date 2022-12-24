@@ -1,0 +1,416 @@
+﻿@using SMShop.Models
+
+@model SMShop.Models.ProductFiltering
+
+@{
+    ViewBag.Title = "Каталог товаров";
+}
+@*@{string imagePath = ""; }*@
+@*<div class=" ">
+        <hr />
+        <h2 class="mt-1 mb-1">@ViewBag.Title</h2>
+        <hr />
+    </div>
+    <div class="row">
+
+        @foreach (SMShop.Models.Product product in Model)
+        {
+            imagePath = "/Content/Images/" + product.Photo;
+
+            <div class="col-md-4">
+                <h5 class="fs-5">@product.Name</h5>
+                <p>
+                    <img height="220px" src="@imagePath" alt="Fail" />
+                </p>
+                <div class="price bg-warning"><h2>@product.Price ₽</h2></div>
+
+                <p class="card-text"><small class="text-muted">Артикул: @product.Id</small></p>
+
+                <p>@Html.ActionLink("Подробнее", "Product", "Home", new { id = product.Id }, new { @class = "btn btn-lg btn-outline-primary rounded-0" })</p>
+            </div>
+
+        }
+
+    </div>*@
+
+
+
+<form method="post">
+    <div class="categoies">
+
+        <h2>Фильтры</h2>
+        <label class="control-label">Категория</label>
+        @Html.DropDownList("category", Model.Categories as SelectList, htmlAttributes: new
+        {
+            @class = "",
+            @onchange = "callCangenfunc(this.value)"
+        })
+
+
+        <label class="prices">Цена</label>
+
+        <input type="number" name="minPrice" value="" max="100000" onfocus="this.value=''" placeholder="от 1000" id="txt_1" onkeyup='saveValue(this);' />
+        <input type="number" name="maxPrice" value="" max="100000" onfocus="this.value=''" placeholder="до 100000" id="txt_2" onkeyup='saveValue(this);' />
+
+
+    </div>
+    <label class="control-label">Сортировка:</label>
+    @Html.DropDownList("sortBrandAndPrice", Model.SortBrandAndPrice as SelectList, htmlAttributes: new { @class = "sortBrandAndPrice" })
+
+    @if (ViewBag.cg != null && ViewBag.rusLanguage == null && ViewBag.category != "Все" && ViewBag.category != null || ViewBag.rusLanguages != null)
+
+    {
+        <div class="filtering">
+            Параметры
+        </div>
+        <label class="control-label">Количество дисков</label>
+
+        @Html.DropDownList("countDiscs", Model.CountDiscs as SelectList, htmlAttributes: new
+      {
+          @class = ""
+      })
+
+        <div class="YesNo">
+            <label class="control-label">Наличие русского языка</label>
+            <label class="control-label1">Дополнительный контент</label>
+            <div>
+                @Html.RadioButton("rusLanguage", "") <label> Все</label>
+                <label class="control-label12"> @Html.RadioButton("AddContent", "") <label> Все</label></label>
+            </div>
+
+            <div>
+                @Html.RadioButton("rusLanguage", "Yes") <label> Да</label>
+                <label class="control-label13"> @Html.RadioButton("AddContent", "Yes") <label> Да</label></label>
+            </div>
+            <div>
+                @Html.RadioButton("rusLanguage", "No") <label> Нет</label>
+                <label class="control-label12"> @Html.RadioButton("AddContent", "No") <label> Нет</label></label>
+            </div>
+        </div>
+        <div></div>
+
+    }
+    @if (ViewBag.cg != null && ViewBag.existGame == null && ViewBag.category != "Все" && ViewBag.category != null || ViewBag.existGames != null)
+    {
+        <div class="filtering">
+            Параметры
+        </div>
+        <label class="control-label">Количество предметов</label>
+
+        @Html.DropDownList("count", Model.Counts as SelectList, htmlAttributes: new
+   {
+       @class = ""
+   })
+        <label class="control-label">Вес</label>
+        @Html.DropDownList("weight", Model.Weights as SelectList, htmlAttributes: new
+   {
+       @class = ""
+   })
+        <div class="YesNo">
+            <label class="control-label">Наличие игры</label>
+
+            <div>
+                @Html.RadioButton("existGame", "") <label> Все</label>
+            </div>
+            <div>
+                @Html.RadioButton("existGame", "Yes") <label> Да</label>
+
+            </div>
+            <div>
+                @Html.RadioButton("existGame", "No") <label> Нет</label>
+
+            </div>
+            <div></div>
+
+
+        </div>
+    }
+    @if (ViewBag.cg != null && ViewBag.origin == null && ViewBag.category != "Все" && ViewBag.category != null || ViewBag.origins != null)
+    {
+        <div class="filtering">
+            Параметры
+        </div>
+        <label class="control-label">Материал</label>
+
+        @Html.DropDownList("material", Model.Materials as SelectList, htmlAttributes: new
+      {
+          @class = ""
+      })
+        <label class="control-label">Источник</label>
+        @Html.DropDownList("source", Model.Sources as SelectList, htmlAttributes: new
+     {
+         @class = ""
+     })
+        <label class="control-label">Производитель</label>
+        @Html.DropDownList("origin", Model.Origins as SelectList, htmlAttributes: new
+     {
+         @class = ""
+     })
+
+        <div></div>
+    }
+
+    <div></div>
+    <input type="submit" value="Показать" class="button2" />
+
+</form>
+
+
+
+
+<script>
+    function callCangenfunc(val) { window.location.href = "/Home/Index?category=" + val };
+    function diskDiameterFunc(val) { window.location.href = "/Home/Index?category=" + @ViewBag.categor+"&diskDiameter=" + val };
+    function mainsVoltageFunc(val) { window.location.href = "/Home/Index?category=" + @ViewBag.categor+"&mainsVoltage=" + val  };
+    function noiceLevelFunc(val) { window.location.href = "/Home/Index?category=" + @ViewBag.categor+"&noiceLevel=" + val  };
+
+
+
+    document.getElementById("txt_1").value = getSavedValue("txt_1");
+    document.getElementById("txt_2").value = getSavedValue("txt_2");
+
+    function saveValue(e) {
+        var id = e.id;
+        var val = e.value;
+        localStorage.setItem(id, val);
+    }
+
+    function getSavedValue(v) {
+        if (localStorage.getItem(v) === null) {
+            return "";
+        }
+        return localStorage.getItem(v);
+    }
+
+</script>
+
+
+@*<div class="categoies">
+        <div>Категории</div>
+        <select onchange="window.location.href = this.options[this.selectedIndex].value" class="size">
+            <option value="/Home/Index/" @((ViewBag.category == null) ? "selected" : "")>Все</option>
+            @foreach (var cat in ViewBag.Categories)
+            {
+
+                <option value="/Home/Index/?category=@cat" @((ViewBag.category == cat) ? "selected" : "")>@cat</option>
+
+            }
+
+        </select>
+    </div>*@
+
+<div class="grid-item">
+
+
+    @foreach (var product in Model.Products)
+    {
+        //imagePath = "/Content/Images/" + product.Photo;
+        <div>
+            <a href="/Home/Product/@product.Id" class="text-decoration-none text-black">
+
+
+                <div class="item">
+
+                    <img src="~/Content/Images/@product.Photo" width="300px" height="300px" />
+
+                    @*<div>
+                            <span>
+                                @Html.ActionLink(product.Category.Category1, "Product", "Home", new { Id = product.Id }, new { @class = "" })
+                            </span>
+                        </div>*@
+          
+                    <div><span>Категория: </span>@product.Category.Category1</div>
+                    <div><span>Название игры: </span>@product.Name</div>
+
+                    <div><span>Цена: </span>@product.Price руб.</div>
+
+                    @Html.ActionLink("Подробнее", "Product", "Home", new { Id = product.Id }, new { @class = "button" })
+
+
+                    @using (Html.BeginForm("AddToCart", "Cart", new { Id = product.Id, categoryName = ViewBag.category, returnUrl = Request.Url.PathAndQuery }))
+                    {
+                        <span class="input-number ">
+
+                            <input id="amount" type="number" min="1" max="100000" name="quantity" value="1" class="form-control form-number">
+
+                            <input type="submit" value="В корзину" class="button-cart" />
+                        </span>
+
+                    }
+
+
+                </div>
+
+            </a>
+        </div>
+
+    }
+
+</div>
+
+
+
+@if (Model.Products.Count() == 0)
+{<div class="NoProduct">
+        <div><span visility="hidden">Товара нет в наличии </span></div>
+    </div>
+}
+
+<style>
+
+    .control-label12 {
+        margin: 0px 0px 0px 205px;
+    }
+
+    .control-label13 {
+        margin: 0px 0px 0px 214px;
+    }
+
+    .control-label1 {
+        margin: 0px 0px 0px 50px;
+    }
+
+    .sortBrandAndPrice {
+        margin: 0px 0px 20px 12px;
+    }
+
+    .YesNo {
+        margin: 20px 0px 0px 0px;
+    }
+
+    .NoProduct {
+        font-size: 30px;
+        margin: 200px 0 600px 500px;
+        color: rgba(0,0,0,0.5);
+    }
+
+
+    .item div > span {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        padding: 3px;
+     /*   color: #fff;*/
+       /* background-color: #3d9dba;*/
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 20px;
+        text-decoration: none;
+    }
+  
+
+    .item {
+        border: 5px solid blue;
+        width: 500px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 green;
+        margin: 0px 30px 30px 0;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+        .item:hover {
+            border-color: green;
+        }
+
+    .categoies {
+        font-size: 100%;
+        /*     width: 300px;
+            height: 200px;*/
+        margin: 10px 30px 30px 0px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+        color: #333333;
+        background: #FFFFFF;
+    }
+
+    .price {
+        color: #d32f2f;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    p {
+        padding: 4px;
+        font-size: 14px;
+        color: #757575;
+    }
+
+    .grid-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+
+    .button1 {
+        border: none;
+        outline: 0;
+        padding: 3px;
+        color: #fff;
+        background-color: #1412d9;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 16px;
+        text-decoration: none;
+        margin: 15px 0px 0px 0px;
+    }
+
+    .button2 {
+        border: none;
+        outline: 0;
+        padding: 3px;
+        color: #fff;
+        background-color: #1412d9;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 16px;
+        text-decoration: none;
+        margin: 15px 0px 50px 0px;
+    }
+
+    .filtering {
+        margin: 0px 0px 0px 0px;
+        text-decoration: none;
+        font-size: 150%;
+    }
+
+
+    .form-control.form-number {
+        width: 110px;
+        margin-right: 12px;
+        border: 1px solid transparent;
+        text-align: center;
+        height: 36px;
+        float: left;
+        background: #ccc;
+    }
+    .input-number {
+        position: relative;
+        display: inline-block;
+    }
+
+    .button-cart {
+        border: none;
+        outline: 0;
+        padding: 2px;
+        color: #fff;
+        background-color: #3d9dba;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 20px;
+        text-decoration: none;
+        margin: 0px 0px 10px 0px;
+    }
+</style>

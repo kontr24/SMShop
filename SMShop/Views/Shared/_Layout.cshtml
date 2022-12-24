@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    @{
+        ViewBag.Title = "SMShop";
+    }
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    @Html.Action("Summary", "Cart")
+    <div class="container body-content">
+
+        @if (Session["UserId"] == null)
+        {
+            <div class="registration"> @Html.ActionLink("Регистрация", "Register", "Account") </div>
+
+            <div class="registration">
+                <div></div>
+                @Html.ActionLink("Вход", "Login", "Account")
+            </div>
+        }
+
+
+        @if (Session["UserId"] != null)
+        {
+            <div class="registration">
+
+                <h4>Пользователь: @Session["LastName"].ToString() @Session["FirstName"].ToString()  </h4>
+                @Html.ActionLink("Выход", "AccountExit", "Account")
+            </div>
+        }
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+            <b class="ms-2">@Html.ActionLink("SMShop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand  ms-lg-3" })</b>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-lg-3">
+                    <li class="nav-item">
+                        <a href="/Home/Index" class="nav-link">Главная</a>
+                    </li>
+                    @*<li class="nav-item ms-lg-3">
+                            @Html.ActionLink("О нас", "About", "Home", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            @Html.ActionLink("Контакты", "Contact", "Home", new { @class = "nav-link" })
+                        </li>*@
+
+                    @foreach (var cat in ViewBag.Categories)
+                    {
+                        <li>
+                            <a href="/Home/Index/?category=@cat" class="nav-link">@cat</a>
+
+                        </li>
+
+                    }
+
+                    @*<li class="nav-item ms-lg-3">
+                            <a class="nav-link" href="#">Доставка</a>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            <a class="nav-link" href="#">Отзывы</a>
+                        </li>*@
+                </ul>
+            </div>
+
+            @using (Html.BeginForm("Index", "Home"))
+            {
+
+                <p>
+                    @*Поиск:*@ @Html.TextBox("SearchString", null, new { @placeholder = "Поиск по названию" })
+
+                    <input type="submit" value="Поиск" class="search" placeholder="Поиск" />
+                </p>
+
+            }
+
+        </nav>
+
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @ViewBag.Title</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<style>
+    .registration {
+        text-decoration: none;
+        text-align: right;
+        font-size: 20px;
+    }
+
+
+    .search {
+        border: none;
+        outline: 0;
+        padding: 0.02px;
+        color: #fff;
+        background-color: #1412d9;
+        text-align: center;
+        cursor: pointer;
+        /*       width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+    }
+    .navbar-right {
+        float: right !important;
+        text-decoration: none;
+        border: none;
+        outline: 0;
+        padding: 5px;
+        /*    color: #fff;*/
+        /*  background-color: #f44336;*/
+        text-align: right;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+    /*    margin: 0px 0px 30px 0px;*/
+    }
+</style>

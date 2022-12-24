@@ -1,0 +1,316 @@
+﻿@model SMShop.Models.Users
+
+@{
+    ViewBag.Title = "Вход";
+}
+
+<h2>Вход</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div>Логин</div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div>Пароль</div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "passwordTextBox", @type = "password" } })
+                <a class='button1' href='#' onclick='toggleShowPassword(); return false;'>
+                    Показать пароль
+                </a>
+
+                <div> @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Войти" class="entry" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+<script>
+    function toggleShowPassword() {
+        var passwordTextBox = document.getElementById('passwordTextBox');
+        if (passwordTextBox.getAttribute('type') == 'text') {
+            passwordTextBox.type = 'password';
+        }
+        else {
+            passwordTextBox.type = 'text';
+        }
+    }
+</script>
+
+
+
+<style>
+
+    .button1 {
+        line-height: 100%;
+        display: inline-block;
+        padding: 7px 15px;
+        background: #0fc818;
+        text-decoration: none;
+        color: black;
+        border-radius: 6px;
+    }
+
+        .button1:active,
+        .button1:hover {
+            background: #3d9dba;
+            color: white;
+        }
+
+
+    .text-danger {
+        color: red;
+    }
+
+    h2 {
+        margin: 10px 0px 0px 600px;
+    }
+
+    .form-group > div {
+        margin: 10px 0px 0px 520px;
+    }
+
+    .entry {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #3d9dba;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+        margin: 10px 0px 0px 200px;
+    }
+
+
+
+
+    .item div > span {
+        font-weight: bold;
+    }
+    /*h1 {
+                font-size: 120%;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                color: #333366;
+            }*/
+    .item {
+        border: 1px solid red;
+        width: 300px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        /*        max-width: 200px;  Ограничение ширины */
+        margin: 0px 30px 30px 0;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+        .item:hover {
+            border-color: green;
+        }
+
+    .categoies {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        width: 300px;
+        /*  border-radius: 5px;*/
+        margin: 30px 30px 30px 0px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+        color: #333333;
+        background: #FFFFFF;
+    }
+
+    .grid-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+
+
+    p {
+        padding: 4px;
+        font-size: 14px;
+        color: #757575;
+    }
+
+    .price {
+        color: #d32f2f;
+        font-size: 18px;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        padding: 10px;
+        color: #fff;
+        background-color: #f44336;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+    .NoProduct {
+        font-size: 30px;
+        margin: 450px 0 600px 850px;
+        color: rgba(0,0,0,0.5);
+    }
+
+    h1 {
+        margin: 10px 0 10px 650px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #000000;
+        font-weight: 700;
+        text-decoration: underline solid rgb(68, 68, 68);
+        font-style: italic;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: #232323;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
+        color: #FFFFFF;
+        background: #232323;
+    }
+
+    .sort {
+        margin: 30px 0px 0px 0px;
+    }
+
+        .sort > a {
+            margin: 30px 10px 10px 0px;
+            text-decoration: none;
+            font-size: 120%;
+        }
+
+        .sort > div {
+            margin: 30px 10px 10px 0px;
+            text-decoration: none;
+            font-size: 120%;
+        }
+
+    .search {
+        border: none;
+        outline: 0;
+        padding: 0.02px;
+        color: #fff;
+        background-color: #f44336;
+        text-align: center;
+        cursor: pointer;
+        /*       width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+
+
+    #content {
+        width: 1000px;
+        margin: 50px auto 0px;
+    }
+
+    #nav {
+        font-family: 'Open Sans', arial;
+    }
+
+        #nav li {
+            float: left; /* все ссылки идут слева на право */
+            position: relative;
+            list-style: none; /* убираем точки */
+            background: #ff3131;
+            width: 190px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            display: block; /* делаем блочным элементов тег "a" */
+            padding: 10px 65px;
+            color: #ffffff;
+        }
+
+        #active a, #nav li:hover > a {
+            background: #b32424;
+        }
+
+        #nav ul {
+            visibility: hidden; /* скрываем выпадающее меню */
+            padding: 0;
+            position: absolute;
+        }
+
+        #nav li:hover > ul {
+            visibility: visible; /* показываем выпадающее меню при наведении */
+            position: relative;
+        }
+
+        #nav ul a {
+            padding: 18.5px 65px; /* делаем отступы выпадающего меню меньше от основного */
+        }
+
+        #nav ul li:hover {
+            background: #d92a2a;
+        }
+
+        #nav li:first-child:hover > ul {
+            left: 0px; /* при наведении на первый элемент чтобы не съежало выпадающее меню */
+        }
+
+        #nav > li {
+            border-right: 2px solid #d92a2a; /* добавляем рамку к основному меню справа */
+        }
+
+            #nav > li:last-child {
+                border-right: none; /* убираем рамку справа основного меню */
+            }
+
+            #nav > li ul li {
+                border-left: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню слева */
+                border-right: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню справа */
+            }
+
+        #nav li:first-child ul li, #nav li:first-child ul {
+            border-left: none; /* убираем рамку у выпадающего меню слева */
+        }
+
+        #nav li:last-child ul li, #nav li:last-child ul {
+            border-right: none; /* убираем рамку у выпадающего меню справа */
+        }
+
+        #nav li:hover > ul {
+            left: -2px; /* смещаем выпадающее меню слева от размера рамки*/
+        }
+</style>

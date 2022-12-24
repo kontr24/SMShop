@@ -1,0 +1,11 @@
+﻿@model SMShop.Models.Cart
+
+<div class="navbar-right">
+
+    @Html.ActionLink(" ", "Index", "Cart", new { returnUrl = Request.Url.PathAndQuery },
+    new { @class = "navbar-right" })
+    <a href="/Cart?returnUrl=%2FHome%2FIndex"><img src="~/Content/Images/Carts.png" width="60px" /></a>
+
+    (@Model.Lines.Sum(x => x.Quantity))
+
+</div>

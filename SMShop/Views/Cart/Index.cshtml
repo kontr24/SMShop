@@ -1,0 +1,474 @@
+﻿
+@model SMShop.Models.CartIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Model.Cart.Lines.Count() != 0)
+{
+    <div class="categoies">
+
+        <div><span>Ваши товары в корзине</span></div>
+    </div>
+}
+
+
+@if (Model.Cart.Lines.Count() == 0)
+{
+    <div class="NoProduct">
+        <div><span visility="hidden">Ваша корзина пуста</span></div>
+    </div>
+}
+
+<div class="grid-item">
+
+
+    @foreach (var line in Model.Cart.Lines)
+    {
+        <div>
+            <div class="item">
+
+                <img src="~/Content/Images/@line.Product.Photo" width="250px" />
+                <div><span>Категория: </span>@line.Product.Category.Category1</div>
+                <div><span>Название: </span>@line.Product.Name</div>
+                <div><span>Цена: </span>@line.Product.Price руб.</div>
+                <div><span>Количество: </span>@line.Quantity</div>
+
+                <div>
+                    @Html.ActionLink("Подробнее", "Product", "Home", new { Id = line.Product.Id }, null)
+                </div>
+
+                @using (Html.BeginForm("AddToCart1", "Cart", new { Id = line.Product.Id, categoryName = ViewBag.category, returnUrl = Request.Url.PathAndQuery }))
+                {
+                    <span class="input-number ">
+                        <input id="amount" type="number" min="1" max="100000" name="quantity" value=@line.Quantity class="form-control form-number ">
+
+                        <input type="submit" value="Изменить" class="button" />
+                    </span>
+
+
+                }
+                <div class="button">
+                    @Html.ActionLink("Удалить", "RemoveFromCart", "Cart", new { Id = line.Product.Id, returnUrl = Request.Url.PathAndQuery }, new { @class = "button" })
+                </div>
+
+
+
+            </div>
+        </div>
+    }
+</div>
+
+
+@if (Model.Cart.Lines.Count() != 0)
+{
+    <div class="quantity">
+
+        <span>Итого: <h>@Model.Cart.ComputeTotalValue().ToString("# руб.")</h></span>
+
+
+    </div>
+}
+
+@if (Model.Cart.Lines.Count() != 0)
+{
+    @Html.ActionLink("Оформить заказ", "Checkout", null, new { @class = "Arrenge" })
+}
+
+@using (Html.BeginForm())
+{
+
+}
+
+<script>
+        function change(objName, min, max, step) {
+            var obj = document.getElementById(objName);
+            var tmp = +obj.value + step;
+            if (tmp < min) tmp = min;
+            if (tmp > max) tmp = max;
+            obj.value = tmp;
+        }
+</script>
+
+
+<style>
+
+    .inner {
+        display: inline-block;
+    }
+
+
+    .quantity > span {
+        font-weight: bold;
+        margin: 600px 0px 0px 1000px;
+        font-size: 150%;
+    }
+
+
+
+   
+
+    .categoies {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        width: 300px;
+        /*  border-radius: 5px;*/
+        margin: 50px 30px 30px 0px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+        color: #333333;
+        background: #FFFFFF;
+    }
+
+
+
+    .item div > span {
+        font-weight: bold;
+        text-align: center;
+    }
+
+
+
+    .item {
+        border: 5px solid blue;
+        width: 500px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 green;
+        margin: 0px 30px 30px 0;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+        .item:hover {
+            border-color: green;
+        }
+
+    .grid-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+
+
+
+
+
+
+    p {
+        padding: 4px;
+        font-size: 14px;
+        color: #757575;
+    }
+
+    .price {
+        color: #d32f2f;
+        font-size: 18px;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        padding: 5px;
+        color: #fff;
+        background-color: #3d9dba;
+        text-align: center;
+        cursor: pointer;
+        /*width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+        margin: 5px auto 5px;
+    }
+
+    input[type=number] {
+        width: 50px;
+    }
+
+    .Arrenge {
+        margin: 0px 0px 30px 500px;
+        font-size: 18px;
+        position: relative;
+        display: inline-block;
+        font-weight: bold;
+        color: #000;
+        text-decoration: none;
+        text-shadow: -2px 2px rgba(255,255,255,.3);
+        line-height: 1.1;
+        padding: .5em 3em .5em .6em;
+        background: linear-gradient(#ecc92b, #fce25b);
+        box-shadow: 0 0 0 1px #fce25b inset, -1px 0px rgb(220,195,35), -1px 1px rgb(192,167,7), -2px 1px rgb(219,194,34), -2px 2px rgb(191,166,6), -3px 2px rgb(218,193,33), -3px 3px rgb(190,165,5), -4px 3px rgb(217,192,32), -4px 4px rgb(189,164,4), -5px 4px rgb(216,191,31), -5px 5px rgb(188,163,3), -6px 5px rgb(215,190,30), -6px 6px rgb(187,162,2), -7px 6px rgb(214,189,29), -7px 7px rgb(186,161,1), -8px 7px rgb(213,188,28), -8px 8px rgb(185,160,0), -7px 9px 1px rgba(0,0,0,.4), -5px 11px 1px rgba(0,0,0,.2), -1px 13px 4px rgba(0,0,0,.2), 4px 16px 7px rgba(0,0,0,.3);
+        transition: .4s;
+    }
+
+        .Arrenge:active {
+            box-shadow: none;
+            -webkit-transform: translate(-7px, 8px);
+            transform: translate(-7px, 8px);
+        }
+
+        .Arrenge:after {
+            content: "";
+            position: absolute;
+            top: calc(50% - .6em/2);
+            right: .6em;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            border: .37em solid;
+            border-top: none;
+            border-left: none;
+            width: .6em;
+            height: .6em;
+            box-shadow: inset -2px 2px rgba(255,255,255,.3);
+        }
+
+    .NoProduct {
+        font-size: 30px;
+        margin: 300px 0 300px 500px;
+        color: rgba(0,0,0,0.5);
+    }
+
+    h1 {
+        margin: 10px 0 10px 650px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #000000;
+        font-weight: 700;
+        text-decoration: underline solid rgb(68, 68, 68);
+        font-style: italic;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: #232323;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
+        color: #FFFFFF;
+        background: #232323;
+    }
+
+
+
+    #content {
+        width: 1000px;
+        margin: 50px auto 0px;
+    }
+
+    #nav {
+        font-family: 'Open Sans', arial;
+    }
+
+        #nav li {
+            float: left; /* все ссылки идут слева на право */
+            position: relative;
+            list-style: none; /* убираем точки */
+            background: #ff3131;
+            width: 190px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            display: block; /* делаем блочным элементов тег "a" */
+            padding: 10px 65px;
+            color: #ffffff;
+        }
+
+        #active a, #nav li:hover > a {
+            background: #b32424;
+        }
+
+        #nav ul {
+            visibility: hidden; /* скрываем выпадающее меню */
+            padding: 0;
+            position: absolute;
+        }
+
+        #nav li:hover > ul {
+            visibility: visible; /* показываем выпадающее меню при наведении */
+            position: relative;
+        }
+
+        #nav ul a {
+            padding: 18.5px 65px; /* делаем отступы выпадающего меню меньше от основного */
+        }
+
+        #nav ul li:hover {
+            background: #d92a2a;
+        }
+
+        #nav li:first-child:hover > ul {
+            left: 0px; /* при наведении на первый элемент чтобы не съежало выпадающее меню */
+        }
+
+        #nav > li {
+            border-right: 2px solid #d92a2a; /* добавляем рамку к основному меню справа */
+        }
+
+            #nav > li:last-child {
+                border-right: none; /* убираем рамку справа основного меню */
+            }
+
+            #nav > li ul li {
+                border-left: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню слева */
+                border-right: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню справа */
+            }
+
+        #nav li:first-child ul li, #nav li:first-child ul {
+            border-left: none; /* убираем рамку у выпадающего меню слева */
+        }
+
+        #nav li:last-child ul li, #nav li:last-child ul {
+            border-right: none; /* убираем рамку у выпадающего меню справа */
+        }
+
+        #nav li:hover > ul {
+            left: -2px; /* смещаем выпадающее меню слева от размера рамки*/
+        }
+
+    #content {
+        width: 1000px;
+        margin: 50px auto 0px;
+    }
+
+    #nav {
+        font-family: 'Open Sans', arial;
+    }
+
+        #nav li {
+            float: left; /* все ссылки идут слева на право */
+            position: relative;
+            list-style: none; /* убираем точки */
+            background: #ff3131;
+            width: 190px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            display: block; /* делаем блочным элементов тег "a" */
+            padding: 10px 65px;
+            color: #ffffff;
+        }
+
+        #active a, #nav li:hover > a {
+            background: #b32424;
+        }
+
+        #nav ul {
+            visibility: hidden; /* скрываем выпадающее меню */
+            padding: 0;
+            position: absolute;
+        }
+
+        #nav li:hover > ul {
+            visibility: visible; /* показываем выпадающее меню при наведении */
+            position: relative;
+        }
+
+        #nav ul a {
+            padding: 18.5px 65px; /* делаем отступы выпадающего меню меньше от основного */
+        }
+
+        #nav ul li:hover {
+            background: #d92a2a;
+        }
+
+        #nav li:first-child:hover > ul {
+            left: 0px; /* при наведении на первый элемент чтобы не съежало выпадающее меню */
+        }
+
+        #nav > li {
+            border-right: 2px solid #d92a2a; /* добавляем рамку к основному меню справа */
+        }
+
+            #nav > li:last-child {
+                border-right: none; /* убираем рамку справа основного меню */
+            }
+
+            #nav > li ul li {
+                border-left: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню слева */
+                border-right: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню справа */
+            }
+
+        #nav li:first-child ul li, #nav li:first-child ul {
+            border-left: none; /* убираем рамку у выпадающего меню слева */
+        }
+
+        #nav li:last-child ul li, #nav li:last-child ul {
+            border-right: none; /* убираем рамку у выпадающего меню справа */
+        }
+
+        #nav li:hover > ul {
+            left: -2px; /* смещаем выпадающее меню слева от размера рамки*/
+        }
+</style>
+
+
+
+
+<style>
+    .input-number {
+        position: relative;
+        display: inline-block;
+    }
+
+    .form-control.form-number {
+        width: 110px;
+        margin-right: 12px;
+        border: 1px solid transparent;
+        text-align: center;
+        height: 42px;
+        float: left;
+        background: #ccc;
+    }
+
+    .btn-count-minus {
+        bottom: 0;
+    }
+
+    .btn-count-plus {
+        top: 0;
+    }
+
+    .btn-count {
+        position: absolute;
+        right: 0;
+        width: 30px;
+        height: 50%;
+        background: #60a645;
+        border-radius: 0;
+        text-align: center;
+        line-height: 25px;
+        font-size: 14px;
+        color: #fff;
+        z-index: 9999;
+        cursor: pointer;
+    }
+
+    .btn-default {
+        font-size: 14px;
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+        text-transform: uppercase;
+        vertical-align: top;
+        display: inline-block;
+        background-color: rgb(96, 166, 69);
+        padding: 0 30px;
+        border-radius: 3px;
+    }
+
+        .btn-default:hover {
+            background-color: #7ad258;
+        }
+
+    .btn-default {
+        height: 50px;
+        line-height: 50px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>

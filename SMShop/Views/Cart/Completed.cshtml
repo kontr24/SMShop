@@ -1,0 +1,311 @@
+﻿@model SMShop.Models.CartIndexViewModel
+@{
+    ViewBag.Title = "Заказ обработан";
+}
+
+<div class="categoies">
+
+    <div><span>Чек</span></div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-right">Категория</th>
+            <th class="text-right">Название</th>
+            <th class="text-right">Количество</th>
+            <th class="text-right">Цена</th>
+            <th class="text-right">Сумма</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Cart.Lines)
+        {
+            if (Model.Products.Id == 0)
+            {
+                <tr>
+                    <td class="text-right">@line.Product.Category.Category1</td>
+                    <td class="text-right">@line.Product.Name</td>
+                    <td class="text-right">@line.Quantity</td>
+                    <td class="text-right">@line.Product.Price руб.</td>
+                    <td class="text-right">@(line.Product.Price * line.Quantity) руб.</td>
+
+                </tr>
+            }
+        }
+        @if (Model.Products.Id != 0)
+        {
+            <tr>
+                <td class="text-right">@Model.Products.Category.Category1</td>
+                <td class="text-right">@Model.Products.Name</td>
+                <td class="text-right">
+                    @Session["quantity"].ToString()
+                </td>
+                <td class="text-right">@Model.Products.Price руб.</td>
+                <td class="text-right">@Session["sum"].ToString() руб.</td>
+
+            </tr>
+
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-left">Итого:</td>
+            @if (Model.Products.Id == 0)
+            {
+                <td class="text-left">@Model.Cart.ComputeTotalValue().ToString("# руб.")</td>
+            }
+            else
+            {
+                <td class="text-right">@Session["sum"].ToString() руб.</td>
+            }
+        </tr>
+    </tfoot>
+
+</table>
+
+<div class="purchaseUser">
+    Клиент: @Session["Surname"].ToString() @Session["Name"].ToString() @Session["Patronomic"].ToString()
+</div>
+<div class="purchaseUser">
+    Адрес: @Session["Country"].ToString(), @Session["City"],ул. @Session["Line1"].ToString(), д. @Session["Line2"].ToString(), кв. @Session["Line3"].ToString()
+</div>
+
+
+<div class="purchase">
+
+    @if (Session["UserId"] == null)
+    {
+        <h2>Спасибо!</h2>
+    }
+    @if (Session["UserId"] != null)
+    {
+        <h2>Спасибо, @Session["FirstName"].ToString()!</h2>
+    }
+    <p>Спасибо за выбор нашего магазина. В ближайщее время заказ будет отправлен. </p>
+</div>
+
+
+@Html.ActionLink("Продолжить покупки", "CartClear", "Cart", new { @class = "button" })
+
+
+<style>
+
+    .purchaseUser {
+        margin: 0px 0px 0px 200px;
+        font-size: 18px;
+    }
+
+    .table {
+        width: auto;
+        margin-bottom: 20px;
+        border: 1px solid #dddddd;
+        border-collapse: collapse;
+        margin: 0px 0px 0px 200px
+    }
+
+        .table th {
+            font-weight: bold;
+            padding: 5px;
+            background: #efefef;
+            border: 1px solid #dddddd;
+        }
+
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-left {
+        text-align: right;
+    }
+
+    .text-right {
+        text-align: center;
+    }
+
+    .item div > span {
+        font-weight: bold;
+    }
+    /*h1 {
+                font-size: 120%;
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+                color: #333366;
+            }*/
+    .item {
+        border: 1px solid red;
+        width: 300px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        /*        max-width: 200px;  Ограничение ширины */
+        margin: 0px 30px 30px 0;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+        .item:hover {
+            border-color: green;
+        }
+
+    .categoies {
+        font-size: 150%;
+        /* border: 3px solid black;*/
+        width: 300px;
+        /*  border-radius: 5px;*/
+        margin: 50px 30px 30px 200px;
+        color: transparent;
+        background: #666666;
+        color: #333333;
+        background: #FFFFFF;
+        text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
+        color: #333333;
+        background: #FFFFFF;
+    }
+
+    .grid-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+
+
+    p {
+        padding: 4px;
+        font-size: 14px;
+        color: #757575;
+    }
+
+    .price {
+        color: #d32f2f;
+        font-size: 18px;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        padding: 5px;
+        color: #fff;
+        background-color: #3d9dba;
+        text-align: center;
+        /*     cursor: pointer;
+        width: 100%;*/
+        font-size: 18px;
+        text-decoration: none;
+        margin: 0px 0px 30px 550px;
+    }
+
+    .NoProduct {
+        font-size: 30px;
+        margin: 450px 0 600px 850px;
+        color: rgba(0,0,0,0.5);
+    }
+
+    h1 {
+        margin: 10px 0 10px 650px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 30px;
+        letter-spacing: 2px;
+        word-spacing: 2px;
+        color: #000000;
+        font-weight: 700;
+        text-decoration: underline solid rgb(68, 68, 68);
+        font-style: italic;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background: #232323;
+        text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
+        color: #FFFFFF;
+        background: #232323;
+    }
+
+    .purchase {
+        margin: 30px 0px 0px 200px;
+        font-size: 18px;
+    }
+
+
+    #content {
+        width: 1000px;
+        margin: 50px auto 0px;
+    }
+
+    #nav {
+        font-family: 'Open Sans', arial;
+    }
+
+        #nav li {
+            float: left; /* все ссылки идут слева на право */
+            position: relative;
+            list-style: none; /* убираем точки */
+            background: #ff3131;
+            width: 190px;
+        }
+
+        #nav a {
+            text-decoration: none;
+            display: block; /* делаем блочным элементов тег "a" */
+            padding: 10px 65px;
+            color: #ffffff;
+        }
+
+        #active a, #nav li:hover > a {
+            background: #b32424;
+        }
+
+        #nav ul {
+            visibility: hidden; /* скрываем выпадающее меню */
+            padding: 0;
+            position: absolute;
+        }
+
+        #nav li:hover > ul {
+            visibility: visible; /* показываем выпадающее меню при наведении */
+            position: relative;
+        }
+
+        #nav ul a {
+            padding: 18.5px 65px; /* делаем отступы выпадающего меню меньше от основного */
+        }
+
+        #nav ul li:hover {
+            background: #d92a2a;
+        }
+
+        #nav li:first-child:hover > ul {
+            left: 0px; /* при наведении на первый элемент чтобы не съежало выпадающее меню */
+        }
+
+        #nav > li {
+            border-right: 2px solid #d92a2a; /* добавляем рамку к основному меню справа */
+        }
+
+            #nav > li:last-child {
+                border-right: none; /* убираем рамку справа основного меню */
+            }
+
+            #nav > li ul li {
+                border-left: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню слева */
+                border-right: 2px solid #d92a2a; /* добавляем рамку к выпадающему меню справа */
+            }
+
+        #nav li:first-child ul li, #nav li:first-child ul {
+            border-left: none; /* убираем рамку у выпадающего меню слева */
+        }
+
+        #nav li:last-child ul li, #nav li:last-child ul {
+            border-right: none; /* убираем рамку у выпадающего меню справа */
+        }
+
+        #nav li:hover > ul {
+            left: -2px; /* смещаем выпадающее меню слева от размера рамки*/
+        }
+</style>
+
