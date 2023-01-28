@@ -15,3 +15,9 @@ https://cloud.mail.ru/public/vKMm/a53tKbHcM
 <p align="center">
   <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"></img></a>
 </p>
+<hr/>
+<h2 align="center">Главная страницая</h2>
+<p align="center">
+  <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/a3a407f453e7b33c070b238f3b65d04521df5a4f/ScreenshotsApplication/HomePage.png"></img></a>
+</p>
+
