@@ -20,4 +20,8 @@ https://cloud.mail.ru/public/vKMm/a53tKbHcM
 <p align="center">
   <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/a3a407f453e7b33c070b238f3b65d04521df5a4f/ScreenshotsApplication/HomePage.png"></img></a>
 </p>
-
+<hr/>
+<h2 align="center">Корзина товаров</h2>
+<p align="center">
+  <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/04bddb3f5d2085b078931f497dd23adc6e5b88a7/ScreenshotsApplication/Shopping%D0%A1art.png"></img></a>
+</p>
