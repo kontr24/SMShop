@@ -10,3 +10,8 @@ https://cloud.mail.ru/public/vKMm/a53tKbHcM
 <p align="center">
   <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/d3fe14fcc688ec02ab88f8a801907dc22a8905ff/ScreenshotsApplication/Entrance.png"></img></a>
 </p>
+<hr/>
+<h2 align="center">Регистрация</h2>
+<p align="center">
+  <a href="https://github.com/kontr24/SMShop"><img src="https://github.com/kontr24/SMShop/blob/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"></img></a>
+</p>
