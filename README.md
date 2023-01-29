@@ -13,7 +13,7 @@ https://cloud.mail.ru/public/vKMm/a53tKbHcM
 <hr/>
 <h2 align="center">Регистрация</h2>
 <p align="center">
-  <a hrefhttps://raw.githubusercontent.com/kontr24/SMShop/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"><img src="https://github.com/kontr24/SMShop/blob/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"></img></a>
+  <a href="https://raw.githubusercontent.com/kontr24/SMShop/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"><img src="https://github.com/kontr24/SMShop/blob/a1b9fef6c3f2b368d1d764c1e1bd696461964c27/ScreenshotsApplication/RegistrationPage.png"></img></a>
 </p>
 <hr/>
 <h2 align="center">Главная страницая</h2>
